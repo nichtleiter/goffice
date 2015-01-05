@@ -5,6 +5,7 @@ ID
 Makefile
 Makefile.in
 aclocal.m4
+gtk-doc.m4
 autom4te*.cache
 compile
 config.cache
@@ -37,3 +38,6 @@ xltmain.sh
 xmldocs.make
 ylwrap
 *.def
+*.o
+*.exe
+*.la
