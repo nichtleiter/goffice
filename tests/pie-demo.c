@@ -49,6 +49,7 @@ main (int argc, char *argv[])
 	GogSeries *series;
 	GOStyle *style;
 	GOData *data;
+    GSList *list = NULL;
 	GError *error;
 	PangoFontDescription *desc;
 	char const *title = "Some statistics";
@@ -59,7 +60,8 @@ main (int argc, char *argv[])
 	/* Initialize libgoffice */
 	libgoffice_init ();
 	/* Initialize plugins manager */
-	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+    list = g_slist_append(list, "../plugins/plot_pie/.libs");
+	go_plugins_init (NULL, NULL, NULL, list , TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_resize (GTK_WINDOW (window), 300, 340);
@@ -92,6 +94,10 @@ main (int argc, char *argv[])
 	chart = go_graph_widget_get_chart (GO_GRAPH_WIDGET (w));
 	/* Create a pie plot and add it to the chart */
 	pie = (GogPlot *) gog_plot_new_by_name ("GogPiePlot");
+
+    if(pie == NULL) {
+        g_print("error\n");
+    }
 	gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (pie));
 	/* Create a series for the plot and populate it with some simple data */
 	series = gog_plot_new_series (pie);
