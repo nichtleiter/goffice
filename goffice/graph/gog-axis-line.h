@@ -32,7 +32,9 @@ G_BEGIN_DECLS
 
 GType gog_axis_base_get_type (void);
 
+GogAxisType gog_axis_base_get_crossed_axis_type (GogAxisBase *axis_base);
 GogAxis *gog_axis_base_get_crossed_axis (GogAxisBase *axis_base);
+GogAxis *gog_axis_base_get_crossed_axis_for_plot (GogAxisBase *axis_base, GogPlot *plot);
 double gog_axis_base_get_cross_location (GogAxisBase *axis_base);
 
 typedef enum {
@@ -52,11 +54,19 @@ typedef enum {
 	GOG_AXIS_TICK_MINOR
 } GogAxisTickTypes;
 
+typedef struct {
+	double		 position;
+	GogAxisTickTypes type;
+	GOString        *str;
+} GogAxisTick;
+
 #define GOG_TYPE_AXIS_LINE	(gog_axis_line_get_type ())
 #define GOG_AXIS_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_TYPE_AXIS_LINE, GogAxisLine))
 #define GOG_IS_AXIS_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_TYPE_AXIS_LINE))
 
 GType gog_axis_line_get_type (void);
+
+unsigned	 gog_axis_line_get_ticks (GogAxisLine *axis_line, GogAxisTick **ticks);
 
 G_END_DECLS
 

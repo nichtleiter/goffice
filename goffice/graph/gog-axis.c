@@ -2663,7 +2663,7 @@ gog_axis_update (GogObject *obj)
 	axis->format = bounds.fmt; /* just absorb the ref if it exists */
 
 	gog_axis_figure_subclass (axis);
-
+	
 	gog_axis_auto_bound (axis);
 
 	if (go_finite (axis->logical_min_val) &&
@@ -3447,7 +3447,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, AXIS_PROP_MAP,
 		g_param_spec_string ("map-name", _("MapName"),
 			_("The name of the map for scaling"),
-			"linear",
+			"Linear",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_ASSIGNED_FORMAT_STR_XL,
 		g_param_spec_string ("assigned-format-string-XL",
@@ -3499,11 +3499,11 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, AXIS_PROP_METRICS_RATIO,
 		g_param_spec_double ("metrics-ratio",
 			_("Metrics ratio"),
-			_("If an axis is used as reference, gives the ratio of the ticks distance, and it the metrix is absolute, the ticks distance. Defaults to 1.0"),
+			_("If an axis is used as reference, gives the ratio of the ticks distance, and if the metrix is absolute, the ticks distance. Defaults to 1.0"),
 		    0.01, 100., 1.,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_REF_AXIS,
-		g_param_spec_string ("metrics-unit", _("Matrics Unit"),
+		g_param_spec_string ("metrics-unit", _("Metrics Unit"),
 			_("The unit symbol for the absolute distance unit between ticks. Might be \"cm\" or \"in\""),
 			"cm",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | GO_PARAM_PERSISTENT));
@@ -4226,11 +4226,11 @@ gog_axis_view_size_allocate (GogView *view, GogViewAllocation const *bbox)
 		if (type == GOG_AXIS_X) {
 			d = plot_area->y - tmp.y - axis_view->padding_high;
 			tmp.y += d;
-			tmp.h = plot_area->h + axis_view->padding_low - d;
+			tmp.h = plot_area->h + axis_view->padding_low + axis_view->padding_high;
 		} else {
 			d = plot_area->x - tmp.x - axis_view->padding_low;
 			tmp.x += d;
-			tmp.w = plot_area->w + axis_view->padding_high - d;
+			tmp.w = plot_area->w + axis_view->padding_low + axis_view->padding_high;
 		}
 	}
 	available.w = tmp.w;

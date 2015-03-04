@@ -287,7 +287,7 @@ go_image_get_format_from_name (char const *name)
 {
 	unsigned i;
 
-	if (name == NULL)
+	if (name == NULL || strcmp (name, "unknown") == 0)
 		return GO_IMAGE_FORMAT_UNKNOWN;
 
 	go_image_build_pixbuf_format_infos ();
@@ -653,20 +653,17 @@ go_image_new_from_data (char const *type, guint8 const *data, gsize length, char
 		g_warning ("unrecognized image format");
 		return NULL;
 	}
-	if (!strcmp (type, "svg")) {
+	if (data == NULL || length == 0) {
+		image = NULL;
+		type = "unknown";
+	} else if (!strcmp (type, "svg")) {
 		image = go_svg_new_from_data (data, length, error);
 	} else if (!strcmp (type, "emf") || !strcmp (type, "wmf")) {
 		image = go_emf_new_from_data (data, length, error);
 	} else if (!strcmp (type, "eps")) {
 		image = go_spectre_new_from_data (data, length, error);
 	} else {
-		GdkPixbufLoader *loader = gdk_pixbuf_loader_new_with_type (type, error);
-		if (loader) {
-			if (gdk_pixbuf_loader_write (loader, data, length, error))
-				image = go_pixbuf_new_from_pixbuf (gdk_pixbuf_loader_get_pixbuf (loader));
-			gdk_pixbuf_loader_close (loader, error);
-			g_object_unref (loader);
-		}
+		image = go_pixbuf_new_from_data (type, data, length, error);
 	}
 	if (image == NULL) {
 #ifdef GOFFICE_WITH_GTK
@@ -830,4 +827,26 @@ go_image_get_default_dpi (double *dpi_x, double *dpi_y)
 {
 	*dpi_x = _go_image_dpi_x;
 	*dpi_y = _go_image_dpi_y;
+}
+
+GOImageFormatInfo const *
+go_image_get_info (GOImage *image)
+{
+	if (GO_IS_PIXBUF (image)) {
+		GOImageFormat f;
+		char *typ;
+		g_object_get (image, "image-type", &typ, NULL);
+		f = go_image_get_format_from_name (typ);
+		g_free (typ);
+		return go_image_get_format_info (f);
+	}
+
+	/* Dubious */
+	if (GO_IS_EMF (image))
+		return go_image_get_format_info (GO_IMAGE_FORMAT_EMF);
+	if (GO_IS_SVG (image))
+		return go_image_get_format_info (GO_IMAGE_FORMAT_SVG);
+	if (GO_IS_SPECTRE (image))
+		return go_image_get_format_info (GO_IMAGE_FORMAT_EPS);
+	return NULL;
 }

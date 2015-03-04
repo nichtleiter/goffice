@@ -1,7 +1,5 @@
 /*
- * go-pixbuf.h
- *
- * Copyright (C) 2011-2012 Jean Brefort (jean.brefort@normalesup.org)
+ * go-arrow-sel.h - Selector for GOArrow
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,26 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA.
  */
-
-#ifndef GO_PIXBUF_H
-#define GO_PIXBUF_H
+#ifndef _GO_ARROW_SEL_H_
+#define _GO_ARROW_SEL_H_
 
 #include <goffice/goffice.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
 
-#define GO_TYPE_PIXBUF	(go_pixbuf_get_type ())
-#define GO_PIXBUF(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_PIXBUF, GOPixbuf))
-#define GO_IS_PIXBUF(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_PIXBUF))
+#define GO_TYPE_ARROW_SEL	(go_arrow_sel_get_type ())
+#define GO_ARROW_SEL(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), GO_TYPE_ARROW_SEL, GOArrowSel))
+#define GO_IS_ARROW_SEL(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_TYPE_ARROW_SEL))
 
-GType go_pixbuf_get_type (void);
+typedef struct _GOArrowSel GOArrowSel;
 
-GOImage		*go_pixbuf_new_from_pixbuf  (GdkPixbuf *pixbuf);
-GOImage		*go_pixbuf_new_from_data	(char const *type, guint8 const *data,
-			                             gsize length, GError **error);
-int 		 go_pixbuf_get_rowstride 	(GOPixbuf *pixbuf);
+GType         go_arrow_sel_get_type (void);
+GtkWidget    *go_arrow_sel_new      (void);
+
+void	      go_arrow_sel_set_arrow (GOArrowSel *as, GOArrow const *arrow);
+GOArrow const *go_arrow_sel_get_arrow (GOArrowSel const *as);
 
 G_END_DECLS
 
-#endif
+#endif /* _GO_ARROW_SEL_H_ */

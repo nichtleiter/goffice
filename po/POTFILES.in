@@ -87,6 +87,8 @@ goffice/gtk/go-action-combo-color.c
 goffice/gtk/go-action-combo-pixmaps.c
 goffice/gtk/go-action-combo-stack.c
 goffice/gtk/go-action-combo-text.c
+goffice/gtk/go-arrow-sel.c
+[type: gettext/glade]goffice/gtk/go-arrow-sel.ui
 goffice/gtk/go-charmap-sel.c
 goffice/gtk/go-color-group.c
 goffice/gtk/go-color-palette.c
@@ -100,12 +102,14 @@ goffice/gtk/go-font-sel-dialog.c
 [type: gettext/glade]goffice/gtk/go-font-sel.ui
 goffice/gtk/go-format-sel.c
 [type: gettext/glade]goffice/gtk/go-format-sel.ui
+goffice/gtk/go-gradient-selector.c
 [type: gettext/glade]goffice/gtk/go-image-save-dialog-extra.ui
 goffice/gtk/go-image-sel.c
 [type: gettext/glade]goffice/gtk/go-image-sel.ui
 goffice/gtk/go-locale-sel.c
 goffice/gtk/go-optionmenu.c
 goffice/gtk/go-palette.c
+goffice/gtk/go-pattern-selector.c
 goffice/gtk/go-rotation-sel.c
 [type: gettext/glade]goffice/gtk/go-rotation-sel.ui
 goffice/gtk/go-math-editor.c

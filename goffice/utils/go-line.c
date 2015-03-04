@@ -107,12 +107,12 @@ typedef struct {
 	double 		 dash[8];
 } GOLineDashDesc;
 
-static GOLineDashDesc const line_short_dot_desc = 		{2, 10,	{ G_MINDOUBLE, 2 } };
+static GOLineDashDesc const line_short_dot_desc = 		{2, 10,	{ 0, 2 } };
 static GOLineDashDesc const line_dot_desc = 			{2, 12,	{ 3, 3 } };
 static GOLineDashDesc const line_short_dash_desc =		{2, 9,	{ 6, 3 } };
-static GOLineDashDesc const line_short_dash_dot_desc =		{4, 12,	{ 6, 3, G_MINDOUBLE, 3 } };
-static GOLineDashDesc const line_short_dash_dot_dot_desc =    	{6, 15,	{ 6, 3, G_MINDOUBLE, 3, G_MINDOUBLE, 3 } };
-static GOLineDashDesc const line_dash_dot_dot_dot_desc =    	{8, 21,	{ 9, 3, G_MINDOUBLE, 3, G_MINDOUBLE, 3, G_MINDOUBLE, 3 } };
+static GOLineDashDesc const line_short_dash_dot_desc =		{4, 12,	{ 6, 3, 0, 3 } };
+static GOLineDashDesc const line_short_dash_dot_dot_desc =    	{6, 15,	{ 6, 3, 0, 3, 0, 3 } };
+static GOLineDashDesc const line_dash_dot_dot_dot_desc =    	{8, 21,	{ 9, 3, 0, 3, 0, 3, 0, 3 } };
 static GOLineDashDesc const line_dash_dot_desc =		{4, 24,	{ 9, 6, 3, 6 } };
 static GOLineDashDesc const line_dash_dot_dot_desc =    	{6, 24,	{ 9, 3, 3, 3, 3, 3 } };
 static GOLineDashDesc const line_dash_desc =			{2, 16,	{ 12, 4 } };
@@ -508,4 +508,79 @@ GOArrow *
 go_arrow_dup (GOArrow *src)
 {
 	return g_memdup (src, sizeof (*src));
+}
+
+gboolean
+go_arrow_equal (const GOArrow *a, const GOArrow *b)
+{
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (a->typ != b->typ)
+		return FALSE;
+
+	switch (a->typ) {
+	default:
+		g_assert_not_reached ();
+	case GO_ARROW_NONE:
+		return TRUE;
+
+	case GO_ARROW_KITE:
+		if (a->c != b->c)
+			return FALSE;
+		/* fall through */
+	case GO_ARROW_OVAL:
+		return (a->a == b->a && a->b == b->b);
+	}
+}
+
+
+/**
+ * go_arrow_draw:
+ * @arrow: arrow to draw
+ * @cr: cairo surface to draw on
+ * @dx: (out): suggested change of line end-point
+ * @dy: (out): suggested change of line end-point
+ * @phi: angle to draw at
+ *
+ **/
+void
+go_arrow_draw (const GOArrow *arrow, cairo_t *cr,
+	       double *dx, double *dy, double phi)
+{
+	if (dx) *dx = 0;
+	if (dy) *dy = 0;
+
+	switch (arrow->typ) {
+	case GO_ARROW_NONE:
+		return;
+
+	case GO_ARROW_KITE:
+		cairo_rotate (cr, phi);
+		cairo_set_line_width (cr, 1.0);
+		cairo_new_path (cr);
+		cairo_move_to (cr, 0.0, 0.0);
+		cairo_line_to (cr, -arrow->c, -arrow->b);
+		cairo_line_to (cr, 0.0, -arrow->a);
+		cairo_line_to (cr, arrow->c, -arrow->b);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+
+		/*
+		 * Make the line shorter so that the arrow won't be on top
+		 * of a (perhaps quite fat) line.
+		 */
+		if (dx) *dx = +arrow->a * sin (phi);
+	        if (dy) *dy = -arrow->a * cos (phi);
+		break;
+
+	case GO_ARROW_OVAL:
+		if (arrow->a > 0 && arrow->b > 0) {
+			cairo_rotate (cr, phi);
+			cairo_scale (cr, arrow->a, arrow->b);
+			cairo_arc (cr, 0., 0., 1., 0., 2 * M_PI);
+			cairo_fill (cr);
+		}
+		break;
+	}
 }

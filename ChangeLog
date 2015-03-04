@@ -1,3 +1,228 @@
+2015-03-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_draw): clip each rectangle before
+	drawing. [#744076]
+
+2015-03-01  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-pixbuf.c (go_pixbuf_create_pixbuf): Avoid
+	critical when loading fails.
+	(go_pixbuf_load_attr): Plug leak.
+
+2015-02-28  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-image.c (go_image_get_info): New function.
+
+2015-02-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/utils/go-image.c (go_image_new_from_data): ensure that GOPixbuf
+	keeps the original data around. [#745297]
+	* goffice/utils/go-pixbuf.c: ditto.
+	* goffice/utils/go-pixbuf.h: ditto.
+
+2015-02-27  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-pixbuf.c (go_pixbuf_load_data): Set
+	->data_length.
+
+	* goffice/utils/go-image.c (go_image_new_from_data): If no image
+	data is given, create an unknown image placeholder.
+
+2015-02-24  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-series-labels.c (gog_data_label_finalize):
+	Plug leak.
+	(role_data_label_post_add): Plug leak.
+	(gog_series_labels_finalize): Plug leak.
+
+	* goffice/graph/gog-axis-line.c
+	(gog_axis_base_get_crossed_axis_type): Make this public.
+	(gog_axis_base_get_crossed_axis_for_plot): New function -- when we
+	know the plot we can pick the desired axis.
+
+2015-02-20  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-pattern-selector.c (go_pattern_tooltip_func): New
+	function.
+
+	* goffice/gtk/go-gradient-selector.c (go_gradient_tooltip_func):
+	New function.
+
+2015-02-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-style.c (go_style_set_font_desc): Doc fix.
+
+	* goffice/utils/go-pattern.c (go_pattern_get_svg_path): Plug leak.
+
+2015-02-16  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-style.c (cb_font_changed): Set auto_font.
+	(go_style_apply_theme): Apply font theming.
+	(go_style_font_sax_save): Only save font when not auto.
+	(go_style_sax_load_font): Be fairly smart about reading files
+	created prior to this fix.
+	(go_style_is_auto): Include auto_font and auto_color.
+	(go_style_line_sax_save, go_style_gradient_sax_save)
+	(go_style_text_layout_sax_save): Use sufficient precision.
+
+2015-02-14  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-line.c (go_arrow_equal): New function.
+
+	* goffice/gtk/go-arrow-sel.c (go_arrow_sel_set_arrow): Use
+	go_arrow_equal.
+
+2015-02-12  Morten Welinder  <terra@gnome.org>
+
+	* goffice/utils/go-line.c: Use 0.0, not G_MINDOUBLE, to make cairo
+	produce dots.  That seems to be the documented way to do it.
+
+2015-02-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/math/go-rangefunc.c (go_range_increasing),
+	(go_range_decreasing): ignore nans. [#744200]
+
+2015-02-11  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-arc.c (prepare_draw_arrow): Protect oval
+	drawing against invalid sizes.
+
+	* goffice/canvas/goc-line.c (goc_line_draw): Avoid overflow.
+	Round a bit more consistently.
+	(draw_arrow): Use go_arrow_draw.
+
+	* goffice/utils/go-line.c (go_arrow_draw): Only draw oval heads
+	when sizes are positive.
+
+	* goffice/gtk/go-font-sel.c (GOFontSelClass): Fix base class.
+
+	* goffice/utils/go-line.c (go_arrow_draw): New function extracted
+	from Gnumeric.
+
+2015-02-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* graph/gog-chart-map.c: protect against missing data
+
+2015-02-07  Morten Welinder  <terra@gnome.org>
+
+	* goffice/math/go-regression.c (go_linear_solve_multiple):
+	Initialize regres.  Why didn't the compiler warn about that?
+
+2015-02-04  Morten Welinder <terra@gnome.org>
+
+	* configure.ac: Post-release bump.
+
+2015-02-04  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.20
+
+2015-02-04  Morten Welinder  <terra@gnome.org>
+
+	* plugins/plot_barcol/gog-line.c (gog_line_series_init_style):
+	Don't wipe out marker colours just because the shape auto.
+
+	* plugins/plot_barcol/gog-minmax.c (gog_minmax_series_init_style): Ditto.
+
+	* plugins/plot_xy/gog-xy-minmax.c
+	(gog_xy_minmax_series_init_style): Ditto.
+
+2015-01-26  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/reg_linear/gog-lin-reg.c: ensure that the dims number is correct
+	in all cases. [see #743507]
+	* plugins/reg_linear/gog-lin-reg.h: ditto.
+	* plugins/reg_linear/gog-polynom-reg.c: ditto.
+
+2015-01-23  Morten Welinder <terra@gnome.org>
+
+	* configure.ac: Post-release bump.
+
+2015-01-23  Morten Welinder <terra@gnome.org>
+
+	* Release 0.10.19
+
+2015-01-21  Morten Welinder  <terra@gnome.org>
+
+	* goffice/graph/gog-object.c (gog_object_add_by_role): Only
+	consider this explicitly_typed_role if the child type is not the
+	default.
+
+2015-01-19  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c (gog_axis_class_init): fixed typo in default map
+	name.
+	* goffice/graph/gog-guru.ui: allow the window to be maximized. [see #742897]
+
+2015-01-17  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-rotation-sel.c (cb_rotate_changed): Avoid
+	rounding errors by using go_cospi and go_sinpi.
+
+2015-01-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plot_distrib/gog-histogram.c
+	(gog_histogram_plot_series_update): don't loose any data when using
+	automatic bins. [#742996]
+
+2015-01-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/reg_linear/gog-lin-reg.c (gog_lin_reg_curve_update): protect
+	against missing data. [#742859]
+	* plugins/reg_logfit/gog-logfit.c (gog_log_fit_curve_update): ditto.
+	* plugins/smoothing/gog-moving-avg.c (gog_moving_avg_update): ditto.
+
+2015-01-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* libgoffice.pc.in: add missing libraries to Requires.private.
+
+2015-01-09  Morten Welinder  <terra@gnome.org>
+
+	* goffice/gtk/go-action-combo-pixmaps.c
+	(go_action_combo_pixmaps_create_menu_item): Use make_icon.
+
+2015-01-08  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-widget.c (goc_offscreen_box_unrealize): Undo
+	the embedder part of realization too.
+
+2015-01-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c (gog_axis_line_get_ticks): don't return
+	invalid ticks.
+
+2015-01-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis-line.c: allow custom ticks and grid lines for axis
+	lines. [#600482]
+	* goffice/graph/gog-axis-line.h: ditto.
+	* goffice/graph/gog-axis-prefs.ui: ditto.
+	* goffice/graph/gog-axis.h: ditto.
+	* goffice/graph/gog-chart.c: ditto.
+	* goffice/graph/gog-grid-line.c: ditto.
+
+2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/graph/gog-axis.c: fix axis title position when at high coordinate.
+
+2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/data/go-data-impl.h: add GO_DATA_HAS_VALUE to GODataFlags.
+	* goffice/data/go-data.c: new go_data_has_value().
+	* goffice/data/go-data.h: ditto.
+	* goffice/graph/gog-series.c: don't use a data vector with no valid value.
+	[#741910]
+	* plugins/plot_xy/gog-xy.c: protect against NULL y vector.
+
+2015-01-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* goffice/canvas/goc-canvas.c (goc_canvas_draw): implement native scrolling.
+	[#741394]
+
+2015-01-06  Morten Welinder  <terra@gnome.org>
+
+	* goffice/canvas/goc-widget.c (goc_offscreen_box_realize): Only
+	make window composited if the screen is.  See bug 741455.
+
 2015-01-04  Morten Welinder  <terra@gnome.org>
 
 	* goffice/gtk/goffice-gtk.c (update_preview_cb): Fix flags
@@ -19087,7 +19312,7 @@
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-object-xml.c (gog_object_new_from_xml) : don't mark newly
-	  reconstituted objects as explititly typed unless they really were.
+	  reconstituted objects as explicitly typed unless they really were.
 	(gog_dataset_save) : patch leak.
 
 	* graph/gog-object.c (gog_object_dup) : new.

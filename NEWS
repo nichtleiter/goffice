@@ -1,8 +1,39 @@
+goffice 0.10.21:
+
+Jean:
+	* Ignore invalid values while checking data order. [#744200]
+	* Ensure that GOPixbuf 	keeps the original data around. [#745297]
+	* Fix sheet objects rendering, including widgets. [#744076]
+
+Morten:
+	* Fix problem with linear solver.
+	* Add arrow selector widget.
+	* Fix rendering of dotted lines.  [#744419]
+	* Activate font part of graph theming.
+	* Plug leaks.
+	* Add tooltips to gradient selector.
+	* Add tooltips to pattern selector.
+	* GOImage fixes.
+
+--------------------------------------------------------------------------
+goffice 0.10.20:
+
+Jean:
+	* Ensure the validity of the dims property for linear regression curves.
+
+Morten:
+	* Fix marker problem with line plots.
+
+--------------------------------------------------------------------------
 goffice 0.10.19:
 
 Jean:
 	* Allow rotation of axis line labels. [#740198]
 	* Move the title with its axis parent. [#684777]
+	* Implement canvas native scrolling. [#741394]
+	* Don't use a data vector with no valid value. [#741910]
+	* Allow custom ticks and grid lines for axis lines. [#600482]
+	* Don't loose any data in an histogram when using automatic bins. [#742996]
 
 Morten:
 	* Dead kitten salvage.
