@@ -188,7 +188,6 @@ goc_offscreen_box_realize (GtkWidget *widget)
 	GtkAllocation allocation, child_area;
 	GtkStyleContext *context;
 	GdkWindow *window;
-	GdkScreen *screen;
 	GdkWindowAttr attributes;
 	gint attributes_mask;
 
