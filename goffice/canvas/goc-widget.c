@@ -218,6 +218,7 @@ goc_offscreen_box_realize (GtkWidget *widget)
 	                         &attributes, attributes_mask);
 	gtk_widget_set_window (widget, window);
 	g_printerr ("XXX: %s\n", G_OBJECT_TYPE_NAME (gdk_window_get_screen (window)));
+	g_printerr ("YYY: %d\n", gdk_screen_is_composited (gdk_window_get_screen (window)));
 #ifndef _WIN32
 	if (gdk_screen_is_composited (gdk_window_get_screen (window)))
 		gdk_window_set_composited (window, TRUE);
